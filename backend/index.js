@@ -2,47 +2,32 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const mongoose = require("mongoose");
-const OpenAI = require("openai");
 
 const app = express();
+
+// Middleware
 app.use(cors());
 app.use(express.json());
+
+// MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.log(err));
+  .catch((err) => console.log("Mongo Error:", err));
+
+// Routes
 const jobRoutes = require("./routes/jobRoutes");
+const aiRoutes = require("./routes/aiRoutes");
+
 app.use("/api/jobs", jobRoutes);
+app.use("/api/ai", aiRoutes);
 
-// OpenAI setup
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-app.post("/api/ai-suggest", async (req, res) => {
-  try {
-    const { title, company } = req.body;
-
-    const response = await client.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "user",
-          content: `Write a professional job description for ${title} role at ${company}`
-        }
-      ],
-    });
-
-    res.json({
-      suggestion: response.choices[0].message.content,
-    });
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "AI failed" });
-  }
-});
+// Root
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
-app.listen(process.env.PORT, () => {
-  console.log(`Server running on port ${process.env.PORT}`);
+
+// Server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

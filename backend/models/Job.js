@@ -7,6 +7,8 @@ const jobSchema = new mongoose.Schema(
     location: String,
     salary: String,
     description: String,
+    skills: String,        
+    matchResult: String,   
   },
   { timestamps: true }
 );
