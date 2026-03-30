@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = "https://ai-job-tracker-8tk7.onrender.com";
 
 export const getJobs = async () => {
   const res = await fetch(`${BASE_URL}/jobs`);
