@@ -1,12 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const OpenAI = require("openai");
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-// 🤖 AI Description
+// 🤖 MOCK AI DESCRIPTION
 router.post("/suggest", async (req, res) => {
   try {
     const { title, company } = req.body;
@@ -15,27 +10,17 @@ router.post("/suggest", async (req, res) => {
       return res.status(400).json({ error: "Title and Company required" });
     }
 
-    const response = await client.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "user",
-          content: `Write a professional job description for ${title} role at ${company}`,
-        },
-      ],
-    });
-
     res.json({
-      suggestion: response.choices[0].message.content,
+      suggestion: `${title} at ${company} is responsible for developing high-quality solutions, collaborating with cross-functional teams, and delivering scalable and efficient applications.`,
     });
 
   } catch (error) {
-    console.error("AI Suggest Error:", error);
-    res.status(500).json({ error: "AI failed" });
+    console.error("Mock AI Suggest Error:", error);
+    res.status(500).json({ error: "Mock AI failed" });
   }
 });
 
-// 🔥 AI Matching
+// 🔥 MOCK AI MATCHING
 router.post("/match", async (req, res) => {
   try {
     const { title, company, skills } = req.body;
@@ -44,36 +29,15 @@ router.post("/match", async (req, res) => {
       return res.status(400).json({ error: "All fields required" });
     }
 
-    const prompt = `
-You are an AI job matching assistant.
-
-Job Role: ${title}
-Company: ${company}
-User Skills: ${skills}
-
-Analyze and return:
-1. Match Score (in %)
-2. Missing Skills
-3. Short suggestion
-
-Format strictly like:
-Match: XX%
-Missing: skill1, skill2
-Suggestion: ...
-`;
-
-    const response = await client.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: prompt }],
-    });
-
     res.json({
-      result: response.choices[0].message.content,
+      result: `Match: 80%
+Missing: Advanced ${title}, System Design
+Suggestion: Improve hands-on projects and strengthen core concepts.`,
     });
 
   } catch (error) {
-    console.error("AI Match Error:", error);
-    res.status(500).json({ error: "AI match failed" });
+    console.error("Mock AI Match Error:", error);
+    res.status(500).json({ error: "Mock AI match failed" });
   }
 });
 

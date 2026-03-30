@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
-import AddJob from "./pages/AddJob";
+import AddJob from "./pages/Newjob";
 
 function App() {
   const [page, setPage] = useState("dashboard");

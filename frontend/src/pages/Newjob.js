@@ -28,7 +28,7 @@ const AddJob = () => {
 
   const handleSubmit = async () => {
     await addJob(job);
-    alert("Job Added 🚀");
+    alert("Job Added");
   };
 
   return (
@@ -42,11 +42,11 @@ const AddJob = () => {
       <input name="skills" onChange={handleChange} placeholder="Skills" className="input" />
 
       <button onClick={generateDescription} className="btn-indigo mt-3">
-        🤖 Generate Description
+       Generate Description
       </button>
 
       <button onClick={generateMatch} className="btn-pink mt-3">
-        🔥 Check Match
+        Check Match
       </button>
 
       <textarea name="description" value={job.description} readOnly className="input mt-3" />

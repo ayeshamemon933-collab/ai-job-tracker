@@ -17,7 +17,7 @@ export const addJob = async (job) => {
 };
 
 export const getAISuggestion = async (data) => {
-  const res = await fetch(`${BASE_URL}/ai-suggest`, {
+  const res = await fetch(`${BASE_URL}/ai/suggest`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -28,7 +28,7 @@ export const getAISuggestion = async (data) => {
 };
 
 export const getAIMatch = async (data) => {
-  const res = await fetch(`${BASE_URL}/ai-match`, {
+  const res = await fetch(`${BASE_URL}/ai/match`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
