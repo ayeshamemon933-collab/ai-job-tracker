@@ -1,4 +1,6 @@
-const BASE_URL = process.env.REACT_APP_API_URL;
+// frontend/src/services/api.js
+
+const BASE_URL = "https://ai-job-tracker-8tk7.onrender.com/api";
 
 // GET ALL JOBS
 export const getJobs = async () => {
