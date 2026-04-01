@@ -12,7 +12,7 @@ function App() {
 
       <div className="mt-6">
         {page === "dashboard" && <Dashboard />}
-        {page === "add" && <AddJob />}
+        {page === "add" && <AddJob setPage={setPage} />} {/* ✅ FIX */}
       </div>
     </div>
   );

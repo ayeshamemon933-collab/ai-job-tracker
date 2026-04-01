@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { addJob, getAISuggestion, getAIMatch } from "../services/api";
 
-const AddJob = () => {
+const AddJob = ({ setPage }) => {
   const [job, setJob] = useState({
     title: "",
     company: "",
@@ -17,22 +17,48 @@ const AddJob = () => {
   };
 
   const generateDescription = async () => {
-    const data = await getAISuggestion(job);
-    setJob({ ...job, description: data.suggestion });
+    try {
+      const data = await getAISuggestion(job);
+      setJob({ ...job, description: data.suggestion });
+    } catch (err) {
+      alert("AI Description failed");
+    }
   };
 
   const generateMatch = async () => {
-    const data = await getAIMatch(job);
-    setJob({ ...job, matchResult: data.result });
+    try {
+      const data = await getAIMatch(job);
+      setJob({ ...job, matchResult: data.result });
+    } catch (err) {
+      alert("AI Match failed");
+    }
   };
 
   const handleSubmit = async () => {
-    await addJob(job);
-    alert("Job Added");
+    try {
+      await addJob(job);
+      alert("Job Added Successfully");
+      setPage("dashboard"); // ✅ redirect after save
+    } catch (err) {
+      alert("Error saving job");
+    }
+  };
+
+  const handleClose = () => {
+    setPage("dashboard"); // ✅ FIXED
   };
 
   return (
-    <div className="max-w-xl mx-auto glass p-6 rounded-2xl">
+    <div className="max-w-xl mx-auto glass p-6 rounded-2xl relative">
+
+      {/* Close Button */}
+      <button
+        onClick={handleClose}
+        className="btn-red absolute top-3 right-3"
+      >
+        ✖
+      </button>
+
       <h2 className="text-2xl font-bold mb-4">Add Job</h2>
 
       <input name="title" onChange={handleChange} placeholder="Title" className="input" />
@@ -42,15 +68,15 @@ const AddJob = () => {
       <input name="skills" onChange={handleChange} placeholder="Skills" className="input" />
 
       <button onClick={generateDescription} className="btn-indigo mt-3">
-       Generate Description
+        Generate Description
       </button>
 
       <button onClick={generateMatch} className="btn-pink mt-3">
         Check Match
       </button>
 
-      <textarea name="description" value={job.description} readOnly className="input mt-3" />
-      <textarea name="matchResult" value={job.matchResult} readOnly className="input mt-3" />
+      <textarea value={job.description} readOnly className="input mt-3" />
+      <textarea value={job.matchResult} readOnly className="input mt-3" />
 
       <button onClick={handleSubmit} className="btn-green mt-4 w-full">
         Save Job
